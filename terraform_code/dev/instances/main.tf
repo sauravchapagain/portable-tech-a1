@@ -114,3 +114,7 @@ resource "aws_eip" "static_eip" {
 resource "aws_ecr_repository" "my_app" {
   name = "ass1-prod-app"
 }
+
+resource "aws_ecr_repository2" "my_db" {
+  name = "ass1-prod-db"
+}
