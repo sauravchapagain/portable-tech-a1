@@ -30,7 +30,7 @@ jobs:
     - name: Build and Push Application
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: clo835-app
+        ECR_REPOSITORY: ass1-prod-app
         IMAGE_TAG: latest
       run: |
         ls -ltra
@@ -40,7 +40,7 @@ jobs:
     - name: Build and Push SQL
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: clo835-db
+        ECR_REPOSITORY: ass1-prod-db
         IMAGE_TAG: latest
       run: |
         ls -ltra
