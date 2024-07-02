@@ -31,8 +31,8 @@ jobs:
     - name: Build and Push Application
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ass1-prod-app
-        IMAGE_TAG: latest
+        ECR_REPOSITORY: web-app
+        IMAGE_TAG: v2
       run: |
         ls -ltra
         # Docker build command
@@ -41,7 +41,7 @@ jobs:
     - name: Build and Push SQL
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ass1-prod-db
+        ECR_REPOSITORY: web-db
         IMAGE_TAG: latest
       run: |
         ls -ltra
