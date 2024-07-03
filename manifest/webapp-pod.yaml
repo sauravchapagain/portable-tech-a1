@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp-pod
+  namespace: webapp
+spec:
+  containers:
+  - name: webapp
+    image: 014677518946.dkr.ecr.us-east-1.amazonaws.com/web-app:latest
+    env:
+      - name: DBHOST
+        value: "mysql-db.sqldb.svc.cluster.local"
+      - name: DBPORT
+        value: "3306"
+      - name: DBPWD
+        valueFrom:
+          secretKeyRef:
+            name: db-secrets
+            key: password
+    ports:
+    - containerPort: 8080
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
