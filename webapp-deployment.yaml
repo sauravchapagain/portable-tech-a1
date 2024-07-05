@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: webapp
+    namespace: webapp
+    labels:
+        app: employees
+        version: v1
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: employees
+            version: v1
+    template:
+        metadata:
+            labels:
+                app: employees
+                version: v1
+        spec:
+            containers:
+                -   image: 014677518946.dkr.ecr.us-east-1.amazonaws.com/web-app:latest
+                    name: webapp
+                    env:
+                        - name: DBHOST
+                          value: "mysql-db.sqldb.svc.cluster.local"
+                        - name: DBPORT
+                          value: "3306"
+                        - name: DBPWD
+                          valueFrom:
+                            secretKeyRef:
+                                name: db-secrets
+                                key: password
+                    ports:
+                        - containerPort: 8080
+            dnsPolicy: ClusterFirst
+            restartPolicy: Always
