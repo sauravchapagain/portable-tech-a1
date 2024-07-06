@@ -9,7 +9,7 @@ spec:
     image: 014677518946.dkr.ecr.us-east-1.amazonaws.com/web-app:latest
     env:
       - name: DBHOST
-        value: "mysql-db.sqldb.svc.cluster.local"
+        value: "10.244.0.21"
       - name: DBPORT
         value: "3306"
       - name: DBPWD
