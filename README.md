@@ -1,41 +1,20 @@
-# Install the required MySQL packages
-
-sudo apt-get update -y
-sudo apt-get install mysql-client -y
-
-# Running application locally
-pip3 install -r requirements.txt
-sudo python3 app.py
-# Building and running 2 tier web application locally
-### Building mysql docker image 
-```docker build -t my_db -f Dockerfile_mysql . ```
-
-### Building application docker image 
-```docker build -t my_app -f Dockerfile . ```
-
-### Running mysql
-```docker run -d -e MYSQL_ROOT_PASSWORD=pw  my_db```
+I have tried my best to host a two-tier web application manually and automate the same via Docker Compose.
 
 
-### Get the IP of the database and export it as DBHOST variable
-```docker inspect <container_id>```
+some roughs 
+
+docker run --name db -d -e MYSQL_ROOT_PASSWORD=pw 383946548058.dkr.ecr.us-east-1.amazonaws.com/db:latest
 
 
-### Example when running DB runs as a docker container and app is running locally
-```
-export DBHOST=127.0.0.1
-export DBPORT=3307
-```
-### Example when running DB runs as a docker container and app is running locally
-```
-export DBHOST=172.17.0.2
-export DBPORT=3306
-```
-```
-export DBUSER=root
-export DATABASE=employees
-export DBPWD=pw
-export APP_COLOR=blue
-```
-### Run the application, make sure it is visible in the browser
-```docker run -p 8080:8080  -e DBHOST=$DBHOST -e DBPORT=$DBPORT -e  DBUSER=$DBUSER -e DBPWD=$DBPWD  my_app```
+
+docker inspect sad_varahamihira |grep IPAddress
+
+
+s3://s3-bucket-for-final-project/bg.jpg
+
+
+docker run --name db -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=pw 383946548058.dkr.ecr.us-east-1.amazonaws.com/db:latest
+
+docker run -p 81:81  -e DBHOST=172.17.0.2 -e DBPORT=$DBPORT -e  DBUSER=$DBUSER -e DBPWD=$DBPWD -e IMAGEURL=$IMAGEURL my_app
+
+docker run -d --name app  -p 81:81  -e DBHOST=172.17.0.2 -e DBPORT=3306  -e DBPWD=pw -e APP_COLOR=blue IMAGEURL='s3://s3-bucket-for-final-project/bg.jpg
