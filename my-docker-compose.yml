@@ -1,0 +1,58 @@
+version: '3.8'
+
+networks:
+  mynetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.100.100.0/24
+          gateway: 10.100.100.1
+
+services:
+  db:
+    build: 
+     context: .
+     dockerfile: Dockerfile_mysql
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - mynetwork
+    restart: unless-stopped
+  
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile_web_frontend
+    container_name: web
+    environment:
+       MYSQL_ROOT_PASSWORD: password
+       DBHOST: db
+       DBPORT: "3306"
+       DBPWD: password
+       APP_COLOR: blue
+    networks:
+      - mynetwork
+    restart: unless-stopped
+    ports: 
+      - "8081:8080"
+    depends_on:
+      - db
+
+  pink:
+    build:
+      context: .
+      dockerfile: Dockerfile_web_frontend
+    container_name: pink
+    env_file: 
+      - ./.env/file.env 
+    environment:
+       APP_COLOR: pink
+    networks:
+      - mynetwork
+    restart: unless-stopped
+    ports:
+      - "8082:8080"
+    depends_on:
+      - db
